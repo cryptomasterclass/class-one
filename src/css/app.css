@@ -1,0 +1,195 @@
+body {
+  margin-left: 34%;
+  margin-right: 34%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  padding: 35px;
+  border: 2px solid DarkGray;
+  font-size: 12px;
+  font-family: "Lucida Console", Monaco, monospace;
+}
+
+h1, h2 {
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  font-size: 22px;
+  word-break: break-all;
+}
+
+h2 {
+  color: #AAA;
+  font-size: 18px;
+  margin-top: -10px;
+  word-break: break-all;
+}
+
+label {
+  display: inline-block;
+  width: 200px;
+  font-size: 12px;
+  padding-bottom: 5px;
+}
+
+a[type=addressLinks] {
+  padding: 0px;
+  color: #666;
+  font-size: 12px;
+  vertical-align: top;
+  resize: none;
+  overflow: hidden;
+  height: auto;
+  width: 75%;
+  border: 0px solid #000;
+  outline: none;
+  padding-left: 0px;
+  word-break: break-all;
+}
+
+textarea[type=mySimpleLabel] {
+  padding: 0px;
+  color: #666;
+  font-size: 12px;
+  vertical-align: top;
+  resize: none;
+  overflow: hidden;
+  height: auto;
+  width: 75%;
+  border: 0px solid #000;
+  outline: none;
+  padding-left: 0px;
+  word-break: break-all;
+}
+
+select[type=registeredUsersAddressMenu] {
+  width: 100%;
+  height: 33px;
+  display: block;
+  border-radius: 1px;
+  padding: 0px 0px 0px 0px;
+  background-color: White;
+  border: 1.0px solid #000;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-align: left;
+  overflow: hidden;
+  outline: none;
+  color: #666;
+}
+
+button[type=clearInboxButton] {
+  padding: 0px;
+  font-size: 12px;
+  margin-top: 0px;
+  border-radius: 1px;
+  border-style: solid;
+  border: 1.0px solid #000;
+  height: 30px;
+  line-height: 30px;
+  width: 60px;
+  text-align: center;
+  background-color: #EEE;
+  outline: none;
+  cursor: default;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+input[type=myDefaultButton] {
+  padding: 0px;
+  font-size: 12px;
+  margin-top: 0px;
+  border-radius: 1px;
+  border: 1.0px solid #000;
+  height: 30px;
+  line-height: 30px;
+  width: 60px;
+  text-align: center;
+  background-color: #EEE;
+  outline: none;
+  cursor: default;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+textarea[type=myInputTextArea] {
+  border: 1.0px solid #000;
+  padding: 10px;
+  font-size: 12px;
+  border-radius: 1px;
+  vertical-align: top;
+  resize: none;
+  user-select: none;
+  outline: none;
+  overflow: hidden;
+  color: #666;
+}
+
+textarea[type=messageTextArea] {
+  border: 1.0px solid #000;
+  font-size: 12px;
+  border-radius: 1px;
+  resize: none;
+  outline: none;
+  line-height: 26px;
+  overflow: hidden;
+  color: #666;
+  background-color: White;
+  display: block;
+  width: 96%;
+  height: 26px;
+  color: Black;
+  padding-left: 10px;
+}
+
+table {
+  border-collapse: collapse;
+  max-width: 100%;
+  width: 100%;
+  border: 1px solid Black;
+}
+
+th {
+  cursor: pointer;
+}
+
+th, td {
+  border: 1px solid Black;
+  font-size: 10px;
+  text-align: center;
+  padding: 5px;
+  word-wrap: break-word;
+  word-break: break-all;
+  user-select: none;
+}
+
+tr:nth-child(even) {
+  background-color: White;
+}
+
+th.sorted.ascending:after {
+  content: "  \2191";
+}
+
+th.sorted.descending:after {
+  content: " \2193";
+}
+
+tr:hover {
+  background-color: transparent;
+  color: #000000;
+}
+
+tr:hover {
+  background-color: #666;
+  color: #000000;
+}
