@@ -3,6 +3,8 @@
 //2. initContract();
 //3. getContractProperties();
 //4. displayMyAccountInfo();
+//5. checkUserRegistration();
+//6. registerUser();
 
 App = {
 
@@ -105,8 +107,63 @@ App = {
     document.getElementById("status").innerHTML = message;
   },
 
-  //todo
-  checkUserRegistration: function() {},
+  checkUserRegistration: function() {
+    var self = this;
+    self.setStatus("Checking user registration...please wait");
+    var meta;
+    App.contracts.ChatWei.deployed().then(function(instance) {
+      meta = instance;
+      return meta.checkUserRegistration.call({from: account});
+    }).then(function(value) {
+      if (value) {
+        self.setStatus("User is registered...ready");
+      } else {
+        if (confirm("New user: we need to setup an inbox for you on the Ethereum blockchain. For this you will need to submit a transaction in MetaMask. You will only need to do this once.")) {
+          App.registerUser();
+        } else {
+          return null;
+        }
+      }
+    }).catch(function(e) {
+      console.log(e);
+      self.setStatus("Error checking user registration; see log");
+    });
+    //return App.getMyInboxSize();
+  },
+
+  registerUser: function() {
+    var self = this;
+    self.setStatus("User registration:(open MetaMask->submit->wait)");
+    var meta;
+    App.contracts.ChatWei.deployed().then(function(instance) {
+      meta = instance;
+      return meta.registerUser({}, {from: account});
+    }).then(function(result) {
+      var gasUsedWei = result.receipt.gasUsed;
+      var gasUsedEther = web3.fromWei(gasUsedWei, "ether");
+      self.setStatus("User is registered...gas spent: " + gasUsedWei + "(Wei)");
+      alert("A personal inbox has been established for you on the Ethereum blockchain. You're all set!");
+    }).catch(function(e) {
+      console.log(e);
+      self.setStatus("Error logging in; see log");
+    });
+    return null;
+  },
+
+  getMyInboxSize: function() {
+    var self = this;
+    var meta;
+    App.contracts.ChatWei.deployed().then(function(instance) {
+      meta = instance;
+      return meta.getMyInboxSize.call({from: account});
+    }).then(function(value) {
+      // Set global variable
+      myInboxSize = value[1];
+    }).catch(function(e) {
+      console.log(e);
+      self.setStatus("");
+    });
+  },
 
   //todo
   copyAddressToSend: function() {}

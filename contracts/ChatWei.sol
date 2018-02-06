@@ -8,10 +8,10 @@ contract ChatWei {
     uint timestamp;
   }
 
- struct ContractProperties {
+  struct ContractProperties {
     address ChatWeiOwner;
-		address[] registeredUsersAddress;
- }
+    address[] registeredUsersAddress;
+  }
 
   struct Inbox {
     uint numSentMessages;
@@ -26,28 +26,28 @@ contract ChatWei {
   Inbox newInbox;
   uint donationsInWei = 0;
   Message newMessage;
-	ContractProperties contractProperties;
+  ContractProperties contractProperties;
 
   function ChatWei() public {
     // Constructor
-		registerUser();
-		contractProperties.ChatWeiOwner = msg.sender;
+    registerUser();
+    contractProperties.ChatWeiOwner = msg.sender;
   }
 
-	function checkUserRegistration() public view returns (bool) {
-		return hasRegistered[msg.sender];
-	}
+  function checkUserRegistration() public view returns (bool) {
+    return hasRegistered[msg.sender];
+  }
 
   function clearInbox() public {
     userInboxes[msg.sender] = newInbox;
   }
 
   function registerUser() public {
-		if(!hasRegistered[msg.sender]) {
-    userInboxes[msg.sender] = newInbox;
-    hasRegistered[msg.sender] = true;
-		contractProperties.registeredUsersAddress.push(msg.sender);
-		}
+    if(!hasRegistered[msg.sender]) {
+      userInboxes[msg.sender] = newInbox;
+      hasRegistered[msg.sender] = true;
+      contractProperties.registeredUsersAddress.push(msg.sender);
+    }
   }
 
   function getContractProperties() public view returns (address, address[]) {
@@ -68,7 +68,7 @@ contract ChatWei {
     receiversInbox.receivedMessages[receiversInbox.numReceivedMessages] = newMessage;
     receiversInbox.numReceivedMessages++;
     return;
-	}
+  }
 
   function receiveMessages() public view returns (bytes32[16], uint[], address[]) {
     Inbox storage receiversInbox = userInboxes[msg.sender];
