@@ -5,6 +5,9 @@
 //4. displayMyAccountInfo();
 //5. checkUserRegistration();
 //6. registerUser() getMyInboxSize();
+//7. receiveMessages();
+
+var myInboxSize = 0;
 
 App = {
 
@@ -128,7 +131,7 @@ App = {
       console.log(e);
       self.setStatus("Error checking user registration; see log");
     });
-    //return App.getMyInboxSize();
+    return App.getMyInboxSize();
   },
 
   registerUser: function() {
@@ -163,6 +166,13 @@ App = {
     }).then(function(value) {
       // Set global variable
       myInboxSize = value[1];
+      if (myInboxSize > 0) {
+        document.getElementById("receivedTable").style.display = "inline";
+        return App.receiveMessages();
+      } else {
+        document.getElementById("receivedTable").style.display = "none";
+        return null;
+      }
     }).catch(function(e) {
       console.log(e);
       self.setStatus("");
@@ -207,6 +217,85 @@ App = {
     }).catch(function(e) {
       console.log(e);
       self.setStatus("Error sending message; see log");
+    });
+  },
+
+  receiveMessages: function() {
+    var self = this;
+    var meta;
+    App.contracts.ChatWei.deployed().then(function(instance) {
+      meta = instance;
+      return meta.receiveMessages.call({}, {from: account});
+    }).then(function(value) {
+      var content = value[0];
+      var timestamp = value[1];
+      var sender = value[2];
+      for (var m = 0; m < myInboxSize; m++) {
+        var tbody = document.getElementById("mytable-tbody");
+        var row = tbody.insertRow();
+        var cell1 = row.insertCell();
+        cell1.innerHTML = timestamp[m];
+        var cell2 = row.insertCell();
+        cell2.innerHTML = sender[m];
+        var cell3 = row.insertCell();
+
+        var thisRowReceivedText = content[m].toString();
+        var receivedAscii = web3.toAscii(thisRowReceivedText);
+        var thisRowSenderAddress = sender[m];
+        cell3.innerHTML = receivedAscii;
+        cell3.hidden = true;
+      }
+      var table = document.getElementById("mytable");
+      var rows = table.rows;
+      for (var i = 1; i < rows.length; i++) {
+        rows[i].onclick = (function(e) {
+          replyToAddress = this.cells[1].innerHTML;
+          var thisRowContent = (this.cells[2].innerHTML);
+          document.getElementById("reply").innerHTML = thisRowContent;
+        });
+      }
+      // create inbox clear all button
+      var clearInboxButton = document.createElement("button");
+      clearInboxButton.id = "clearInboxButton";
+      clearInboxButton.type = "clearInboxButton";
+      clearInboxButton.disabled = false;
+      clearInboxButton.style.width = "100%";
+      clearInboxButton.style.height = "30px";
+      clearInboxButton.style.margin = "15px 0px";
+      clearInboxButton.innerHTML = "Clear inbox";
+      document.getElementById("receivedTable").appendChild(clearInboxButton);
+      clearInboxButton.addEventListener("click", function() {
+        document.getElementById("clearInboxButton").disabled = true;
+        App.clearInbox();
+      });
+    }).catch(function(e) {
+      console.log(e);
+      self.setStatus("Error getting messages; see log");
+    });
+    return;
+  },
+
+  clearInbox: function() {
+    var self = this;
+    var meta;
+    this.setStatus("Clearing inbox:(open MetaMask->submit->wait)");
+    App.contracts.ChatWei.deployed().then(function(instance) {
+      meta = instance;
+      return meta.clearInbox({}, {
+        from: account,
+        gas: 6385876,
+        gasPrice: 20000000000
+      });
+    }).then(function(value) {
+      var clearInboxButton = document.getElementById("clearInboxButton");
+      clearInboxButton.parentNode.removeChild(clearInboxButton);
+      $("#mytable tr").remove();
+      document.getElementById("receivedTable").style.display = "none";
+      alert("Your inbox was cleared");
+      self.setStatus("Inbox cleared");
+    }).catch(function(e) {
+      console.log(e);
+      self.setStatus("Error clearing inbox; see log");
     });
   },
 
