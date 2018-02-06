@@ -166,6 +166,12 @@ App = {
   },
 
   //todo
+  sendMessage: function() {},
+
+  //todo
+  replyToMessage: function() {},
+
+  //todo
   copyAddressToSend: function() {}
 };
 
