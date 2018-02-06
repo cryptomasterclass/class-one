@@ -137,7 +137,11 @@ App = {
     var meta;
     App.contracts.ChatWei.deployed().then(function(instance) {
       meta = instance;
-      return meta.registerUser({}, {from: account});
+      return meta.registerUser({}, {
+        from: account,
+        gas: 6385876,
+        gasPrice: 20000000000
+      });
     }).then(function(result) {
       var gasUsedWei = result.receipt.gasUsed;
       var gasUsedEther = web3.fromWei(gasUsedWei, "ether");
@@ -165,14 +169,60 @@ App = {
     });
   },
 
-  //todo
-  sendMessage: function() {},
+  sendMessage: function() {
+    var self = this;
+    var receiver = document.getElementById("receiver").value;
+    if (receiver == "") {
+      App.setStatus("Send address cannot be empty");
+      return null;
+    }
+    if (!web3.isAddress(receiver)) {
+      App.setStatus("You did not enter a valid Ethereum address");
+      return null;
+    }
+    var myAddress = document.getElementById("myAddress").innerHTML;
+    var newMessage = document.getElementById("message").value;
+    if (newMessage == "") {
+      App.setStatus("Oops! Message is empty");
+      return null;
+    }
+    document.getElementById("message").value = "";
+    document.getElementById("sendMessageButton").disabled = true;
+    this.setStatus("Sending message:(open MetaMask->submit->wait)");
+    var meta;
+    App.contracts.ChatWei.deployed().then(function(instance) {
+      meta = instance;
+      return meta.sendMessage(receiver, newMessage, {
+        from: account,
+        gas: 6385876,
+        gasPrice: 20000000000
+      });
+    }).then(function(result) {
+      console.log(result);
+      var gasUsedWei = result.receipt.gasUsed;
+      var gasUsedEther = web3.fromWei(gasUsedWei, "ether");
+      self.setStatus("Message successfully sent...gas spent: " + gasUsedWei + " Wei");
+      document.getElementById("sendMessageButton").disabled = false;
+      document.getElementById("message").value = "";
+    }).catch(function(e) {
+      console.log(e);
+      self.setStatus("Error sending message; see log");
+    });
+  },
 
-  //todo
-  replyToMessage: function() {},
+  replyToMessage: function() {
+    document.getElementById("message").focus();
+    document.getElementById("message").select();
+    document.getElementById("receiver").value = replyToAddress;
+  },
 
-  //todo
-  copyAddressToSend: function() {}
+  copyAddressToSend: function() {
+    var sel = document.getElementById("registeredUsersAddressMenu");
+    var copyText = sel.options[sel.selectedIndex];
+    document.getElementById("receiver").value = copyText.innerHTML;
+    document.getElementById("message").focus();
+    document.getElementById("message").select();
+  }
 };
 
 $(document).ready(function() {
