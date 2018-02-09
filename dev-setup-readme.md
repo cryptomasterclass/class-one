@@ -1,5 +1,5 @@
 ## Setup an Ethereum Developer Desktop (Ubuntu) in 14 Easy Steps
-Starting with a fresh install of *Ubuntu (16.04 LTS)*, we can setup an Ethereum developer client by following these 13 steps in succession:
+Starting with a fresh install of *Ubuntu (16.04 LTS)*, we can setup an Ethereum developer client by following these 14 steps in succession:
 
 ### 1. Update the operating system (optional)
 It's best that we first update our operating system to make sure we have the latest packages that come pre-installed with Ubuntu. To do this we first update the local packages and then upgrade those packages to their latest versions. To do this, open the Ubuntu terminal program and simply enter the following command:
