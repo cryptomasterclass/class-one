@@ -2,7 +2,7 @@
 
 This repository contains the source code for "Chatwei-Lite" an Ethereum dApp developed by *Crypto Masterclass*. 
 
-Chatwei-Lite is lightweight version of [Chatwei](www.chatwei.com), which is full feature online messaging dApp running on the Rinkeby testnet. 
+Chatwei-Lite is lightweight version of [Chatwei](http://www.chatwei.com), which is full feature online messaging dApp running on the Rinkeby testnet. 
 
 The course material relating to this source code can be found [here](www.cryptomasterclass.io), where you can learn how to build the dApp from scratch. 
 
